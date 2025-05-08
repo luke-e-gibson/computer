@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { WindowingContext } from "./global/global";
 import { useCurrentWindow } from "./global/windowing";
 import "./style/Taskbar.css";
@@ -7,6 +7,9 @@ export default function Taskbar() {
   const windower = useContext(WindowingContext);
   const { currentWindow, setCurrentWindow } = useCurrentWindow(windower);
   const [time, setTime] = useState(new Date());
+  const [isAppDrawerOpen, setIsAppDrawerOpen] = useState(false);
+  const appDrawerRef = useRef<HTMLDivElement>(null);
+  const startButtonRef = useRef<HTMLDivElement>(null);
   const windows = windower.getWindows();
 
   useEffect(() => {
@@ -16,6 +19,25 @@ export default function Taskbar() {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isAppDrawerOpen &&
+        appDrawerRef.current &&
+        startButtonRef.current &&
+        !appDrawerRef.current.contains(event.target as Node) &&
+        !startButtonRef.current.contains(event.target as Node)
+      ) {
+        setIsAppDrawerOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isAppDrawerOpen]);
+
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString(undefined, {
       hour: "2-digit",
@@ -23,10 +45,30 @@ export default function Taskbar() {
     });
   };
 
+  const handleStartClick = () => {
+    setIsAppDrawerOpen(!isAppDrawerOpen);
+  };
+
+  const launchApp = (appName: string) => {
+    windower.openWindow(appName);
+    setIsAppDrawerOpen(false);
+  };
+
   return (
     <div className="taskbar">
-      <div className="taskbar__start">
+      <div ref={startButtonRef} className="taskbar__start" onClick={handleStartClick}>
         <img src="/icon.png" alt="Start" />
+      </div>
+      <div ref={appDrawerRef} className={`taskbar__applications ${isAppDrawerOpen ? 'open' : ''}`}>
+        <span className="taskbar__applications-text">Applications</span>
+        <div className="taskbar__applications-icons">
+          {Object.entries(windower.getRegisteredApps()).map(([appName, app]) => (
+            <div key={appName} className="taskbar__app-icon-wrapper" onClick={() => launchApp(appName)}>
+              <img src={app.settings.icon} alt={app.settings.title} />
+              <span className="taskbar__app-title">{app.settings.title}</span>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="taskbar__apps">
         {Object.entries(windows).map(([id, window]) => (
@@ -36,17 +78,26 @@ export default function Taskbar() {
               window.isMinimized ? "minimized" : ""
             }`}
             onClick={() => {
-              if (window.isMinimized) {
+              if (currentWindow === id && !window.isMinimized) {
                 windower.updateWindowState(
                   id,
                   window.x,
                   window.y,
                   window.width,
                   window.height,
-                  !window.isMinimized
+                  true
                 );
+              } else {
+                windower.updateWindowState(
+                  id,
+                  window.x,
+                  window.y,
+                  window.width,
+                  window.height,
+                  false
+                );
+                setCurrentWindow(id);
               }
-              setCurrentWindow(id);
             }}
           >
             <img src={window.icon} alt={window.title} className="taskbar__app-icon" />

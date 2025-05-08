@@ -58,7 +58,6 @@ export class Windowing {
     if (!app) return null;
 
     const id = `${appName}-${Date.now()}`;
-    //Put window in middle of screen
     const x = Math.floor((window.innerWidth - (app.settings.defaultWidth || 600)) / 2);
     const y = Math.floor((window.innerHeight - (app.settings.defaultHeight || 400)) / 2);
 
@@ -145,6 +144,10 @@ export class Windowing {
     return this.windows;
   }
 
+  public getRegisteredApps() {
+    return this.registeredApps;
+  }
+
   public subscribe(listener: () => void) {
     this.listeners.push(listener);
     return () => {
@@ -157,7 +160,6 @@ export class Windowing {
   }
 }
 
-// Custom hook to access the windowing context and subscribe to changes
 export function useCurrentWindow(windowing: Windowing) {
   const [currentWindow, setCurrentWindow] = useState(
     windowing.getCurrentWindow()

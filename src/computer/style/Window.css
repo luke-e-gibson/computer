@@ -75,7 +75,6 @@
 }
 
 .window-content {
-  padding: 10px;
   height: calc(100% - 35px);
   overflow: auto;
 }
