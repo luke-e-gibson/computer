@@ -11,12 +11,12 @@ export class MouseHandler {
       this._isDragging = this._mouseDown
     })
 
-    window.addEventListener('mousedown', (event) => {
+    window.addEventListener('mousedown', () => {
       this._mouseDown = true
       this._mouseUp = false
     })
 
-    window.addEventListener('mouseup', (event) => {
+    window.addEventListener('mouseup', () => {
       this._mouseDown = false
       this._mouseUp = true
     })

@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import "./style/Taskbar.css";
 import { WindowingContext } from "./global/global";
 import { useCurrentWindow } from "./global/windowing";

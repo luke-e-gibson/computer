@@ -1,16 +1,13 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { nanoid } from "nanoid";
 import "./style/Window.css";
 import { useCurrentWindow } from "./global/windowing";
 import { WindowingContext } from "./global/global";
-import { type WindowSettings } from "./global/windowing";
 
 interface WindowProps {
   windowId: string;
   onClose?: () => void;
 }
 
-const RESIZE_HANDLE_SIZE = 5;
 
 export function Window({ windowId, onClose }: WindowProps) {
   const windower = useContext(WindowingContext);
