@@ -3,7 +3,7 @@ import "./style/WebOs.css";
 import Taskbar from "./Taskbar";
 import { Window } from "./Window";
 import { WindowingContext } from "./global/global";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
 interface WebOsProps {
   children?: ReactNode;

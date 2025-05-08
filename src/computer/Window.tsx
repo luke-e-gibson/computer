@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import "./style/Window.css";
 import { useCurrentWindow } from "./global/windowing";
 import { WindowingContext } from "./global/global";
-import { WindowSettings } from "./global/windowing";
+import { type WindowSettings } from "./global/windowing";
 
 interface WindowProps {
   windowId: string;
