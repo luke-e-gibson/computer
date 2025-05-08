@@ -1,0 +1,31 @@
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background-color: #333;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  z-index: 1000;
+}
+
+.taskbar__start {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.taskbar__apps {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.taskbar__clock {
+  margin-left: auto;
+  font-size: 14px;
+  color: #ccc;
+}
