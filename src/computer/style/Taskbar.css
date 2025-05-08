@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: 40px;
-  background-color: var(--taskbar-bg-dark);
+  background-color: var(--surface);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
@@ -25,7 +25,7 @@
 }
 
 .taskbar__start:hover {
-  background-color: var(--taskbar-hover-dark);
+  background-color: var(--surface-hover);
 }
 
 .taskbar__start img {
@@ -39,7 +39,7 @@
   left: 0;
   width: 640px;
   height: 600px;
-  background-color: var(--taskbar-bg-dark);
+  background-color: var(--surface);
   backdrop-filter: blur(10px);
   border: 1px solid var(--border);
   border-bottom: none;
@@ -132,11 +132,11 @@
 }
 
 .taskbar__app:hover {
-  background-color: var(--taskbar-hover-dark);
+  background-color: var(--surface-hover);
 }
 
 .taskbar__app.active {
-  background-color: var(--taskbar-hover-dark);
+  background-color: var(--surface-hover);
   border-bottom-color: var(--accent);
 }
 
