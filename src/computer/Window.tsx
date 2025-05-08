@@ -50,18 +50,22 @@ export function Window({ children, window: windowSettings, onClose }: WindowProp
   const handleDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!headerRef.current || isMaximized) return;
     const windowElement = headerRef.current.parentElement as HTMLDivElement;
-    const offsetX = e.clientX - windowElement.getBoundingClientRect().left;
-    const offsetY = e.clientY - windowElement.getBoundingClientRect().top;
+    const offsetX = e.clientX - position.x;
+    const offsetY = e.clientY - position.y;
 
     setCurrentWindow(windowId);
 
     const handleMouseMove = (e: MouseEvent) => {
-      requestAnimationFrame(() => {
-        let newX = e.clientX - offsetX;
-        let newY = e.clientY - offsetY;
+      let newX = e.clientX - offsetX;
+      let newY = e.clientY - offsetY;
 
-        newX = Math.max(0, Math.min(newX, window.innerWidth - windowElement.offsetWidth));
-        newY = Math.max(0, Math.min(newY, window.innerHeight - windowElement.offsetHeight - 40));
+      // Constrain to window bounds
+      newX = Math.max(0, Math.min(newX, window.innerWidth - size.width));
+      newY = Math.max(0, Math.min(newY, window.innerHeight - size.height - 40));
+
+      windowElement.style.transform = `translate3d(${newX}px, ${newY}px, 0)`;
+      // Only update React state on next frame for smooth movement
+      requestAnimationFrame(() => {
         setPosition({ x: newX, y: newY });
       });
     };
@@ -150,8 +154,7 @@ export function Window({ children, window: windowSettings, onClose }: WindowProp
         width: `${size.width}px`,
         height: `${size.height}px`,
         position: "absolute",
-        left: `${position.x}px`,
-        top: `${position.y}px`,
+        transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
         minWidth: windowSettings.minWidth,
         minHeight: windowSettings.minHeight,
       }}
