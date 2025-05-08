@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './notepad.css';
 import { useLocalStorage } from '../../global/storage/localStore';
 

@@ -42,3 +42,10 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
 
     return [storedValue, setValue] as const;
 }
+
+export function resetLocalStorage() {
+    if (typeof window !== 'undefined') {
+        console.log('Clearing localStorage');
+        window.localStorage.clear();
+    }
+}

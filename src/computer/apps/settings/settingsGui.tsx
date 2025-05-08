@@ -1,11 +1,27 @@
+import { resetLocalStorage, useLocalStorage } from '../../global/storage/localStore';
 import './settingsGui.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+export interface SettingsStore {
+  theme: string | null;
+}
 
 export function SettingsApp() {
   const [theme, setTheme] = useState(() => document.documentElement.getAttribute('data-theme') || 'dark');
+  const [store, setStore] = useLocalStorage<SettingsStore>('settings', { theme });
+
+  useEffect(() => {
+    if (store && store.theme) {
+      console.log('Settings store:', store);
+      setTheme(store.theme);
+      handleThemeChange(store.theme);
+    }
+  }, [])
+
 
   const handleThemeChange = (selectedTheme: string) => {
     setTheme(selectedTheme);
+    setStore({ theme: selectedTheme });
     document.documentElement.setAttribute('data-theme', selectedTheme);
   };
 
@@ -26,6 +42,12 @@ export function SettingsApp() {
               <option value="light">Light</option>
             </select>
           </label>
+        </div>
+
+        <div className='settings-option'>
+          <h2>Storage Options</h2>
+
+          <button onClick={() => resetLocalStorage() }>Reset KV Storage</button>
         </div>
       </div>
     </div>
