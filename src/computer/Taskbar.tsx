@@ -43,7 +43,7 @@ export default function Taskbar() {
                   window.y,
                   window.width,
                   window.height,
-                  false
+                  !window.isMinimized
                 );
               }
               setCurrentWindow(id);

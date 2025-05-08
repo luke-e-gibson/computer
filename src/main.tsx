@@ -28,7 +28,7 @@ function ExampleApp() {
 windower.registerApp("myApp", <ExampleApp />, {
   icon: "https://cdn-icons-png.flaticon.com/512/25/25231.png",
   title: "Test Window",
-  minWidth: 300,
+  minWidth: 250,
   minHeight: 200,
 });
 const appWindow = windower.openWindow("myApp");

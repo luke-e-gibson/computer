@@ -18,8 +18,8 @@ export function Window({ windowId, onClose }: WindowProps) {
   const appContent = windower.getAppContent(windowId);
   
   const [position, setPosition] = useState(() => ({
-    x: Math.random() * (window.innerWidth - (appSettings?.minWidth || 300)),
-    y: Math.random() * (window.innerHeight - (appSettings?.minHeight || 200) - 40)
+    x: Math.floor((window.innerWidth - (windower.getAppSettings(windowId)?.defaultHeight || 600)) / 2),
+    y:  Math.floor((window.innerHeight - (windower.getAppSettings(windowId)?.defaultHeight || 400)) / 2) 
   }));
   const [size, setSize] = useState({
     width: appSettings?.defaultWidth || 600,

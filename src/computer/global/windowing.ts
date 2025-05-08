@@ -25,6 +25,9 @@ interface RegisteredApp {
   settings: WindowSettings;
 }
 
+const MIN_WIDTH = 250;
+const MIN_HEIGHT = 150;
+
 export class Windowing {
   private _currentWindow: string | null = null;
   private windows: {
@@ -41,8 +44,8 @@ export class Windowing {
     this.registeredApps[appName] = {
       gui,
       settings: {
-        minWidth: 300,
-        minHeight: 200,
+        minWidth: MIN_WIDTH,
+        minHeight: MIN_HEIGHT,
         defaultWidth: 600,
         defaultHeight: 400,
         ...settings
@@ -55,8 +58,9 @@ export class Windowing {
     if (!app) return null;
 
     const id = `${appName}-${Date.now()}`;
-    const x = Math.random() * (window.innerWidth - (app.settings.defaultWidth || 600));
-    const y = Math.random() * (window.innerHeight - (app.settings.defaultHeight || 400) - 40);
+    //Put window in middle of screen
+    const x = Math.floor((window.innerWidth - (app.settings.defaultWidth || 600)) / 2);
+    const y = Math.floor((window.innerHeight - (app.settings.defaultHeight || 400)) / 2);
 
     this.windows[id] = {
       x,
