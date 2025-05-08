@@ -3,49 +3,49 @@ import { nanoid } from "nanoid";
 import "./style/Window.css";
 import { useCurrentWindow } from "./global/windowing";
 import { WindowingContext } from "./global/global";
+import { WindowSettings } from "./global/windowing";
 
 interface WindowProps {
-  children: React.ReactNode;
-  window: {
-    minWidth: number;
-    minHeight: number;
-    id?: string;
-    title: string;
-    icon: string;
-  };
+  windowId: string;
   onClose?: () => void;
 }
 
 const RESIZE_HANDLE_SIZE = 5;
 
-export function Window({ children, window: windowSettings, onClose }: WindowProps) {
-  const windowId = useState(() => windowSettings.id || nanoid())[0];
+export function Window({ windowId, onClose }: WindowProps) {
+  const windower = useContext(WindowingContext);
+  const appSettings = windower.getAppSettings(windowId);
+  const appContent = windower.getAppContent(windowId);
+  
   const [position, setPosition] = useState(() => ({
-    x: Math.random() * (window.innerWidth - windowSettings.minWidth),
-    y: Math.random() * (window.innerHeight - windowSettings.minHeight - 40)
+    x: Math.random() * (window.innerWidth - (appSettings?.minWidth || 300)),
+    y: Math.random() * (window.innerHeight - (appSettings?.minHeight || 200) - 40)
   }));
   const [size, setSize] = useState({
-    width: windowSettings.minWidth,
-    height: windowSettings.minHeight,
+    width: appSettings?.defaultWidth || 600,
+    height: appSettings?.defaultHeight || 400,
   });
   const [isMaximized, setIsMaximized] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const windower = useContext(WindowingContext);
   const { currentWindow, setCurrentWindow } = useCurrentWindow(windower);
   const headerRef = useRef<HTMLDivElement>(null);
   const windowRef = useRef<HTMLDivElement>(null);
   const preMaximizeState = useRef({ position: position, size: size });
 
   useEffect(() => {
-    windower.registerWindow(windowId, position.x, position.y, size.width, size.height);
+    windower.registerWindow(
+      windowId,
+      position.x,
+      position.y,
+      size.width,
+      size.height,
+      appSettings?.title || "",
+      appSettings?.icon || ""
+    );
     return () => {
       windower.unregisterWindow(windowId);
     };
   }, []);
-
-  useEffect(() => {
-    windower.updateWindowState(windowId, position.x, position.y, size.width, size.height);
-  }, [position.x, position.y, size.width, size.height]);
 
   const handleDragStart = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!headerRef.current || isMaximized) return;
@@ -94,13 +94,13 @@ export function Window({ children, window: windowSettings, onClose }: WindowProp
 
       if (direction === "right" || direction === "bottom-right") {
         newWidth = Math.max(
-          windowSettings.minWidth,
+          appSettings?.minWidth || 300,
           Math.min(window.innerWidth - position.x, initialWidth + (e.clientX - startX))
         );
       }
       if (direction === "bottom" || direction === "bottom-right") {
         newHeight = Math.max(
-          windowSettings.minHeight,
+          appSettings?.minHeight || 200,
           Math.min(window.innerHeight - position.y - 40, initialHeight + (e.clientY - startY))
         );
       }
@@ -134,7 +134,19 @@ export function Window({ children, window: windowSettings, onClose }: WindowProp
 
   const handleMinimize = () => {
     setIsMinimized(!isMinimized);
+    windower.updateWindowState(
+      windowId,
+      position.x,
+      position.y,
+      size.width,
+      size.height,
+      !isMinimized
+    );
   };
+
+  useEffect(() => {
+    windower.updateWindowState(windowId, position.x, position.y, size.width, size.height);
+  }, [position.x, position.y, size.width, size.height]);
 
   if (isMinimized) {
     return null;
@@ -155,14 +167,14 @@ export function Window({ children, window: windowSettings, onClose }: WindowProp
         height: `${size.height}px`,
         position: "absolute",
         transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-        minWidth: windowSettings.minWidth,
-        minHeight: windowSettings.minHeight,
+        minWidth: appSettings?.minWidth || 300,
+        minHeight: appSettings?.minHeight || 200,
       }}
     >
       <div className="window-header" ref={headerRef} onMouseDown={handleDragStart}>
         <div className="window-header-left">
-          <img src={windowSettings.icon} alt="icon" className="window-icon" />
-          <span className="window-title">{windowSettings.title}</span>
+          <img src={appSettings?.icon} alt="icon" className="window-icon" />
+          <span className="window-title">{appSettings?.title}</span>
         </div>
         <div className="window-controls">
           <button className="window-button minimize" onClick={handleMinimize}>─</button>
@@ -171,7 +183,7 @@ export function Window({ children, window: windowSettings, onClose }: WindowProp
         </div>
       </div>
 
-      <div className="window-content">{children}</div>
+      <div className="window-content">{appContent}</div>
 
       {!isMaximized && (
         <>
