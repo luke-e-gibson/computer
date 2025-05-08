@@ -4,28 +4,89 @@
   left: 0;
   right: 0;
   height: 40px;
-  background-color: #333;
-  color: white;
+  background-color: #2e3440;
+  color: #d8dee9;
   display: flex;
   align-items: center;
   padding: 0 10px;
   z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .taskbar__start {
   display: flex;
   align-items: center;
+  padding: 5px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.taskbar__start:hover {
+  background-color: #3b4252;
+}
+
+.taskbar__start img {
+  width: 24px;
+  height: 24px;
 }
 
 .taskbar__apps {
   display: flex;
   align-items: center;
-  margin-left: auto;
+  gap: 5px;
+  margin-left: 10px;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.taskbar__apps::-webkit-scrollbar {
+  display: none;
+}
+
+.taskbar__app {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+  max-width: 200px;
+  background-color: #3b4252;
+}
+
+.taskbar__app.active {
+  background-color: #4c566a;
+}
+
+.taskbar__app.minimized {
+  opacity: 0.7;
+}
+
+.taskbar__app:hover {
+  background-color: #434c5e;
+}
+
+.taskbar__app-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.taskbar__app-title {
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .taskbar__clock {
-  margin-left: auto;
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: #3b4252;
+  font-family: 'Fira Code', monospace;
   font-size: 14px;
-  color: #ccc;
 }

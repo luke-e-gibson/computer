@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 
+export interface WindowState {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  title: string;
+  icon: string;
+  isMinimized: boolean;
+}
+
 export class Windowing {
   private _currentWindow: string | null = null;
   private windows: {
-    [key: string]: { x: number; y: number; width: number; height: number };
+    [key: string]: WindowState;
   } = {};
-
-  private resizeHandleSize: number = 5;
-  private minWidth: number = 100;
-  private minHeight: number = 100;
-  private maxWidth: number = window.innerWidth - this.resizeHandleSize;
-  private maxHeight: number = window.innerHeight - this.resizeHandleSize;
-
-  private zIndex: number = 1;
+  private listeners: (() => void)[] = [];
 
   constructor() {}
 
@@ -21,26 +24,58 @@ export class Windowing {
     x: number,
     y: number,
     width: number,
-    height: number
+    height: number,
+    title: string = "",
+    icon: string = ""
   ) {
-    this.windows[id] = { x, y, width, height };
+    this.windows[id] = { x, y, width, height, title, icon, isMinimized: false };
+    this.notifyListeners();
   }
 
   public unregisterWindow(id: string) {
     delete this.windows[id];
+    if (this._currentWindow === id) {
+      const remainingWindows = Object.keys(this.windows);
+      this._currentWindow = remainingWindows.length > 0 ? remainingWindows[remainingWindows.length - 1] : null;
+    }
+    this.notifyListeners();
+  }
+
+  public updateWindowState(
+    id: string,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    isMinimized?: boolean
+  ) {
+    if (this.windows[id]) {
+      this.windows[id] = {
+        ...this.windows[id],
+        x,
+        y,
+        width,
+        height,
+        ...(isMinimized !== undefined && { isMinimized })
+      };
+      this.notifyListeners();
+    }
   }
 
   public setCurrentWindow(id: string) {
-    this._currentWindow = id;
-    this.notifyListeners();
+    if (this.windows[id]) {
+      this._currentWindow = id;
+      this.notifyListeners();
+    }
   }
 
   public getCurrentWindow() {
     return this._currentWindow;
   }
 
-  // Listener pattern to notify components of changes
-  private listeners: (() => void)[] = [];
+  public getWindows() {
+    return this.windows;
+  }
 
   public subscribe(listener: () => void) {
     this.listeners.push(listener);
