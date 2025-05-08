@@ -18,8 +18,8 @@ export function Window({ windowId, onClose }: WindowProps) {
   const appContent = windower.getAppContent(windowId);
   
   const [position, setPosition] = useState(() => ({
-    x: Math.floor((window.innerWidth - (windower.getAppSettings(windowId)?.defaultHeight || 600)) / 2),
-    y:  Math.floor((window.innerHeight - (windower.getAppSettings(windowId)?.defaultHeight || 400)) / 2) 
+    x: Math.floor((window.innerWidth - (windower.getAppSettings(windowId)?.defaultWidth || 600)) / 2),
+    y: Math.floor((window.innerHeight - (windower.getAppSettings(windowId)?.defaultHeight || 400)) / 2) 
   }));
   const [size, setSize] = useState({
     width: appSettings?.defaultWidth || 600,
@@ -63,11 +63,9 @@ export function Window({ windowId, onClose }: WindowProps) {
       newX = Math.max(0, Math.min(newX, window.innerWidth - size.width));
       newY = Math.max(0, Math.min(newY, window.innerHeight - size.height - 40));
 
+      // Update both visual position and state immediately
       windowElement.style.transform = `translate3d(${newX}px, ${newY}px, 0)`;
-      // Only update React state on next frame for smooth movement
-      requestAnimationFrame(() => {
-        setPosition({ x: newX, y: newY });
-      });
+      setPosition({ x: newX, y: newY });
     };
 
     const handleMouseUp = () => {

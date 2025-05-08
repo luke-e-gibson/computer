@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./style/WebOs.css";
 import Taskbar from "./Taskbar";
 import { Window } from "./Window";
 import { WindowingContext } from "./global/global";
 import { type ReactNode } from "react";
+import { registerApps } from "./apps/registerApps";
 
 interface WebOsProps {
   children?: ReactNode;
