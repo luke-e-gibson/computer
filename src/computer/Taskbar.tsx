@@ -1,14 +1,28 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./style/Taskbar.css";
 import { WindowingContext } from "./global/global";
 import { useCurrentWindow } from "./global/windowing";
+
+const Clock = () => {
+  const clockRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const updateClock = () => {
+      const now = new Date();
+      if(!clockRef.current) return
+      clockRef.current.innerText = now.toLocaleTimeString();
+    };
+    const intervalId = setInterval(updateClock, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
+
+  return <div ref={clockRef} className="taskbar__clock">Loading...</div>;
+};
 
 export default function Taskbar() {
   const windower = useContext(WindowingContext);
   const { currentWindow, setCurrentWindow } = useCurrentWindow(windower);
   const [isAppDrawerOpen, setIsAppDrawerOpen] = useState(false);
   const windows = windower.getWindows();
-  const [time] = useState(new Date());
 
   const launchApp = (appName: string) => {
     const windowId = windower.openWindow(appName);
@@ -16,10 +30,6 @@ export default function Taskbar() {
       setCurrentWindow(windowId);
       setIsAppDrawerOpen(false);
     }
-  };
-
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
@@ -64,7 +74,7 @@ export default function Taskbar() {
           </div>
         ))}
       </div>
-      <div className="taskbar__clock">{formatTime(time)}</div>
+      <div><Clock/></div>
     </div>
   );
 }

@@ -1,10 +1,11 @@
 .window {
-  background-color: #2e3440;
-  color: #d8dee9;
+  background-color: var(--surface);
+  color: var(--text-primary);
   font-family: 'Fira Code', monospace;
   font-size: 14px;
   border-radius: 5px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 10px var(--shadow);
   transition: all 0.2s ease-out;
   transform: translate3d(0, 0, 0);
   will-change: transform;
@@ -24,13 +25,13 @@
 .window-title {
   font-size: 16px;
   font-weight: bold;
-  color: #88c0d0;
+  color: var(--text-primary);
 }
 
 .window-header {
-  background-color: #3b4252;
+  background-color: var(--surface);
   padding: 5px 8px;
-  border-bottom: 1px solid #4c566a;
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -57,7 +58,7 @@
   border: none;
   border-radius: 4px;
   background: transparent;
-  color: #d8dee9;
+  color: var(--text-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -67,7 +68,7 @@
 }
 
 .window-button:hover {
-  background-color: #4c566a;
+  background-color: var(--surface-hover);
 }
 
 .window-button.close:hover {
@@ -97,7 +98,7 @@
 }
 
 .resize-handle:hover {
-  background-color: rgba(136, 192, 208, 0.2);
+  background-color: var(--surface-hover);
 }
 
 .resize-right {

@@ -5,16 +5,60 @@
   width: 100%;
   padding: 15px;
   box-sizing: border-box;
-  background-color: #2e3440;
+  background-color: var(--surface);
 }
 
 .settings-app h1 {
   margin: 0 0 15px 0;
-  color: #88c0d0;
+  color: var(--accent);
   font-size: 24px;
 }
 
 .settings-app p {
-  color: #d8dee9;
+  color: var(--text-primary);
   font-size: 16px;
+}
+
+.settings-section {
+  background-color: var(--background);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.settings-section h2 {
+  color: var(--text-primary);
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.settings-option {
+  margin-bottom: 12px;
+}
+
+.settings-option label {
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.settings-option select {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: 'Fira Code', monospace;
+  cursor: pointer;
+}
+
+.settings-option select:hover {
+  border-color: var(--accent);
+}
+
+.settings-option select:focus {
+  outline: none;
+  border-color: var(--accent);
 }

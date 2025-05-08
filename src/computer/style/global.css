@@ -1,3 +1,52 @@
+:root {
+  /* Light Theme */
+  --background-light: #ffffff;
+  --surface-light: #f5f5f5;
+  --surface-hover-light: rgba(0, 0, 0, 0.05);
+  --border-light: #e0e0e0;
+  --text-primary-light: #333333;
+  --text-secondary-light: #666666;
+  --accent-light: #0078D4;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+
+  /* Dark Theme */
+  --background-dark: #141414;
+  --surface-dark: rgba(0, 0, 0, 0.4);
+  --surface-hover-dark: rgba(255, 255, 255, 0.1);
+  --border-dark: rgba(255, 255, 255, 0.1);
+  --text-primary-dark: #ffffff;
+  --text-secondary-dark: rgba(255, 255, 255, 0.7);
+  --accent-dark: #0078D4;
+  --shadow-dark: rgba(0, 0, 0, 0.3);
+  --taskbar-bg-dark: rgba(0, 0, 0, 0.2);
+  --taskbar-hover-dark: rgba(255, 255, 255, 0.05);
+
+  /* Default to dark theme */
+  --background: var(--background-dark);
+  --surface: var(--surface-dark);
+  --surface-hover: var(--surface-hover-dark);
+  --border: var(--border-dark);
+  --text-primary: var(--text-primary-dark);
+  --text-secondary: var(--text-secondary-dark);
+  --accent: var(--accent-dark);
+  --shadow: var(--shadow-dark);
+}
+
+/* Light theme class */
+:root[data-theme="light"] {
+  --background: var(--background-light);
+  --surface: var(--surface-light);
+  --surface-hover: var(--surface-hover-light);
+  --border: var(--border-light);
+  --text-primary: var(--text-primary-light);
+  --text-secondary: var(--text-secondary-light);
+  --accent: var(--accent-light);
+  --shadow: var(--shadow-light);
+}
+
 * {
   font-family: 'Fira Code', monospace;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }

@@ -1,14 +1,12 @@
 body {
-  background-color: #141414;
+  background-color: var(--background);
   background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp10117165.png&f=1&nofb=1&ipt=8bd940808e28bec6f8d0dc31744ae25386b65345b67b11a4fefd5fcae15d7859");
   background-size: cover;
   overflow: hidden;
+  color: var(--text-primary);
 }
 
-
 .webos {
-  background-color: #000;
-  color: #fff;
   font-family: 'FiraCode', sans-serif;
   font-size: 16px;
   line-height: 1.5;

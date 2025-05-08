@@ -1,4 +1,5 @@
 import './settingsGui.css';
+import React from 'react';
 
 export function SettingsApp() {
   return (
