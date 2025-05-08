@@ -21,7 +21,7 @@ export interface WindowState {
 }
 
 interface RegisteredApp {
-  gui: ReactNode;
+  guiFactory: () => ReactNode;
   settings: WindowSettings;
 }
 
@@ -40,9 +40,9 @@ export class Windowing {
 
   constructor() {}
 
-  public registerApp(appName: string, gui: ReactNode, settings: WindowSettings) {
+  public registerApp(appName: string, guiFactory: () => ReactNode, settings: WindowSettings) {
     this.registeredApps[appName] = {
-      gui,
+      guiFactory,
       settings: {
         minWidth: MIN_WIDTH,
         minHeight: MIN_HEIGHT,
@@ -78,7 +78,8 @@ export class Windowing {
 
   public getAppContent(id: string): ReactNode | null {
     const appName = id.split('-')[0];
-    return this.registeredApps[appName]?.gui || null;
+    const app = this.registeredApps[appName];
+    return app ? app.guiFactory() : null;
   }
 
   public getAppSettings(id: string): WindowSettings | null {

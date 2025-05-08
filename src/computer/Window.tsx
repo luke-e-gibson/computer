@@ -14,8 +14,11 @@ const RESIZE_HANDLE_SIZE = 5;
 
 export function Window({ windowId, onClose }: WindowProps) {
   const windower = useContext(WindowingContext);
+  console.log(`Window component rendering for ${windowId}`);
   const appSettings = windower.getAppSettings(windowId);
+  console.log(`App settings for ${windowId}:`, appSettings);
   const appContent = windower.getAppContent(windowId);
+  console.log(`App content for ${windowId}:`, appContent);
   
   const [position, setPosition] = useState(() => ({
     x: Math.floor((window.innerWidth - (windower.getAppSettings(windowId)?.defaultWidth || 600)) / 2),
@@ -181,7 +184,9 @@ export function Window({ windowId, onClose }: WindowProps) {
         </div>
       </div>
 
-      <div className="window-content">{appContent}</div>
+      <div className="window-content">
+        {appContent}
+      </div>
 
       {!isMaximized && (
         <>

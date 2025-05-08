@@ -1,3 +1,5 @@
+import './settingsGui.css';
+
 export function SettingsApp() {
   return (
     <div className="settings-app">

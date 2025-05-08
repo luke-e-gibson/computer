@@ -1,0 +1,33 @@
+.notepad-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #2e3440;
+}
+
+.notepad-app h1 {
+  margin: 0 0 10px 0;
+  color: #88c0d0;
+  font-size: 20px;
+}
+
+.notepad-app textarea {
+  flex: 1;
+  width: 100%;
+  padding: 10px;
+  background-color: #3b4252;
+  color: #d8dee9;
+  border: 1px solid #4c566a;
+  border-radius: 5px;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  resize: none;
+}
+
+.notepad-app textarea:focus {
+  outline: none;
+  border-color: #88c0d0;
+}

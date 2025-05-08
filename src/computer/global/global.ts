@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from "react";
 import { MouseHandler } from "./mouseHandler";
 import { Windowing } from './windowing';
 import { registerApps } from '../apps/registerApps';
@@ -17,7 +16,7 @@ declare global {
   interface Window {
     _mouse: MouseHandler,
     _window: Windowing, 
-    _registerApp: (appName: string, gui: React.ReactNode, settings: { icon: string; title: string; minWidth?: number; minHeight?: number; }) => void;
+    _registerApp: (appName: string, guiFactory: () => React.ReactNode, settings: { icon: string; title: string; minWidth?: number; minHeight?: number; defaultWidth?: number; defaultHeight?: number; }) => void;
     createApps: () => void;
   }
 }

@@ -1,0 +1,20 @@
+.settings-app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: #2e3440;
+}
+
+.settings-app h1 {
+  margin: 0 0 15px 0;
+  color: #88c0d0;
+  font-size: 24px;
+}
+
+.settings-app p {
+  color: #d8dee9;
+  font-size: 16px;
+}
