@@ -128,16 +128,28 @@ export function Window({ windowId, onClose }: WindowProps) {
   };
 
   const handleMinimize = () => {
-    setIsMinimized(!isMinimized);
+    const newMinimizedState = !isMinimized;
+    setIsMinimized(newMinimizedState);
     windower.updateWindowState(
       windowId,
       position.x,
       position.y,
       size.width,
       size.height,
-      !isMinimized
+      newMinimizedState
     );
   };
+
+  // Listen for window state updates
+  useEffect(() => {
+    const unsubscribe = windower.subscribe(() => {
+      const windowState = windower.getWindows()[windowId];
+      if (windowState?.isMinimized !== undefined) {
+        setIsMinimized(windowState.isMinimized);
+      }
+    });
+    return () => unsubscribe();
+  }, [windowId, windower]);
 
   useEffect(() => {
     windower.updateWindowState(windowId, position.x, position.y, size.width, size.height);

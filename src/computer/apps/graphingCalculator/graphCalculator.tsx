@@ -1,31 +1,41 @@
 import { useState, useEffect, useRef } from "react";
 import './graphCalculator.css';
 
+declare global {
+    interface Window {
+        Desmos?: {
+            GraphingCalculator: (element: HTMLElement, options: any) => any;
+        }
+    }
+}
+
 export default function GraphingCalulator() {
     const calcElm = useRef<HTMLDivElement>(null);
-    const [calculator, setCalculator] = useState<Desmos.Calculator | null>(null);
+    const [calculator, setCalculator] = useState<any>(null);
+    const [scriptLoaded, setScriptLoaded] = useState(false);
 
     useEffect(() => {
-        if (typeof window.Desmos === 'undefined') {
+        if (!scriptLoaded && !window.Desmos) {
             const script = document.createElement('script');
             script.src = 'https://www.desmos.com/api/v1.10/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
             script.async = true;
             script.onload = () => {
-                if (calcElm.current) {
-                    const calc = Desmos.GraphingCalculator(calcElm.current, {});
-                    setCalculator(calc);
-                }
+                setScriptLoaded(true);
             };
             document.body.appendChild(script);
 
             return () => {
                 document.body.removeChild(script);
             };
-        } else if (calcElm.current && !calculator) {
-            const calc = Desmos.GraphingCalculator(calcElm.current, {});
+        }
+    }, [scriptLoaded]);
+
+    useEffect(() => {
+        if (scriptLoaded && calcElm.current && !calculator && window.Desmos) {
+            const calc = window.Desmos.GraphingCalculator(calcElm.current, {});
             setCalculator(calc);
         }
-    }, [calculator]);
+    }, [scriptLoaded, calculator]);
     
     return (
         <div className="graphing-calculator">

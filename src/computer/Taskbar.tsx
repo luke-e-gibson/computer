@@ -56,17 +56,30 @@ export default function Taskbar() {
               window.isMinimized ? "minimized" : ""
             }`}
             onClick={() => {
-              if (window.isMinimized) {
+              if (currentWindow === id && !window.isMinimized) {
+                // If clicking the current window and it's not minimized, minimize it
                 windower.updateWindowState(
                   id,
                   window.x,
                   window.y,
                   window.width,
                   window.height,
-                  false
+                  true
                 );
+              } else {
+                // Otherwise restore and focus the window
+                if (window.isMinimized) {
+                  windower.updateWindowState(
+                    id,
+                    window.x,
+                    window.y,
+                    window.width,
+                    window.height,
+                    false
+                  );
+                }
+                setCurrentWindow(id);
               }
-              setCurrentWindow(id);
             }}
           >
             <img src={window.icon} alt={window.title} className="taskbar__app-icon" />
