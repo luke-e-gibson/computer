@@ -48,6 +48,12 @@ export function SettingsApp() {
           <h2>Storage Options</h2>
 
           <button onClick={() => resetLocalStorage() }>Reset KV Storage</button>
+          <button onClick={() => {
+            const fs = window._webfs;
+            if (fs) {
+              fs.reset();
+            }
+          }}>Reset WebFS</button>
         </div>
       </div>
     </div>

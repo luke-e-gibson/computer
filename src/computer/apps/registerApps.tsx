@@ -1,4 +1,5 @@
 import CalculatorApp from "./calculator/calculator";
+import FileBrowserApp from "./fileBrowser/fileBrowser";
 import GraphingCalulator from "./graphingCalculator/graphCalculator";
 import { NotepadApp } from "./notepad/notepad"
 import { SettingsApp } from "./settings/settingsGui"
@@ -44,6 +45,13 @@ export function registerApps() {
     title: "Graphing Calculator",
     minWidth: 380,
     minHeight: 600,
+  })
+
+  windower.registerApp('webfs', () => {
+    return <FileBrowserApp />
+  }, {
+    icon: "https://cdn-icons-png.flaticon.com/512/2915/2915423.png ",
+    title: "File Browser",
   })
 
   console.log("Apps registered:", Object.keys(windower.getRegisteredApps()));

@@ -2,7 +2,7 @@
   /* Light Theme */
   --background-light: #ffffff;
   --surface-light: #f5f5f5;
-  --surface-hover-light: rgba(0, 0, 0, 0.05);
+  --surface-hover-light: #e8e8e8;
   --border-light: #e0e0e0;
   --text-primary-light: #333333;
   --text-secondary-light: #666666;
@@ -11,15 +11,15 @@
 
   /* Dark Theme */
   --background-dark: #141414;
-  --surface-dark: rgba(0, 0, 0, 0.4);
-  --surface-hover-dark: rgba(255, 255, 255, 0.1);
-  --border-dark: rgba(255, 255, 255, 0.1);
+  --surface-dark: #1e1e1e;
+  --surface-hover-dark: #2a2a2a;
+  --border-dark: #333333;
   --text-primary-dark: #ffffff;
   --text-secondary-dark: rgba(255, 255, 255, 0.7);
   --accent-dark: #0078D4;
   --shadow-dark: rgba(0, 0, 0, 0.3);
-  --taskbar-bg-dark: rgba(0, 0, 0, 0.2);
-  --taskbar-hover-dark: rgba(255, 255, 255, 0.05);
+  --taskbar-bg-dark: #1a1a1a;
+  --taskbar-hover-dark: #2c2c2c;
 
   /* Default to dark theme */
   --background: var(--background-dark);

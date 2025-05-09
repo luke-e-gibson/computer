@@ -156,7 +156,7 @@ export class Windowing {
     };
   }
 
-  private notifyListeners() {
+  public notifyListeners() {
     this.listeners.forEach((listener) => listener());
   }
 }
